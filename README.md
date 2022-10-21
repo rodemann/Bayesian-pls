@@ -6,7 +6,7 @@
 ### Introduction, TOC
 This anonymous repository contains code for Selecting Pseudo-Labels the Bayesian way, as introduced in the paper "Bayes Optimal Pseudo-Label Selection for Semi-Supervised Learning"
 
-* [PROBO](PROBO) contains implementation of PROBO
+* [R](R) contains implementation of BPLS with PPP and alternative PLS methods to benchmark against
 * [benchmarking](benchmarking) provides files for experiments (section 4), in order to reproduce results, see setup below
 * files in [data](data) allow recreating visualizations of data and functions used in the benchmark experiments, see below
 * files in [univariate-benchmark-functions](univariate-benchmark-functions) allow visualization of synthetic test functions mentioned in section 4
