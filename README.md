@@ -61,7 +61,7 @@ In order to reproduce the papers' key results (and visualizations thereof) furth
 
 Eventually, download [benchmarks/experiments_simulated_data.R](benchmarks/experiments_simulated_data.R) and run from benchmarks/ (estimated runtime: 30 CPU hours)
 
-Both [results](results) and [plots](plots) will be stored automatically. In addition, you can access them as object after completion of the experiments.
+Important: Create empty folders [results](results) and [plots](plots) where experimental results will be stored automatically. In addition, you can access them as object after completion of the experiments.
 
 
 ### Further experiments
