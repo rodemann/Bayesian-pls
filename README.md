@@ -47,12 +47,12 @@ Then download the implementations of BPLS with PPP and concurring PLS methods an
 
 In order to reproduce the papers' key results (and visualizations thereof) further download these scripts and save in respective folder:
 
-* [global setup of experiments](benchmarking/run_benchmarks_simulated_data_p=60.R)
+* [global setup of experiments](benchmarks/run_benchmarks_simulated_data_p=60.R)
 * [analyze/analyze.R](analyze/analyze.R)
-* [benchmarking/experiments/benchmark-dml-pred.R](benchmarking/experiments/benchmark-dml-pred.R)
-* [benchmarking/experiments/benchmark-dml-pred-ext.R](benchmarking/experiments/benchmark-dml-pred-ext.R)
-* [benchmarking/experiments/benchmark-standard-supervised.R](benchmarking/experiments/benchmark-standard-supervised.R)
-* [benchmarking/experiments/benchmark-standard-self-training.R](benchmarking/experiments/benchmark-standard-self-training.R)
+* [benchmarking/experiments/benchmark-dml-pred.R](benchmarks/experiments/benchmark-dml-pred.R)
+* [benchmarking/experiments/benchmark-dml-pred-ext.R](benchmarks/experiments/benchmark-dml-pred-ext.R)
+* [benchmarking/experiments/benchmark-standard-supervised.R](benchmarks/experiments/benchmark-standard-supervised.R)
+* [benchmarking/experiments/benchmark-standard-self-training.R](benchmarks/experiments/benchmark-standard-self-training.R)
 * [benchmarking/experiments/benchmark-standard-self-training_conf.R](benchmarking/experiments/benchmark-standard-self-training_conf.R)
 
 
