@@ -39,7 +39,7 @@ feature_28 <- rnorm(n, mean = 4, sd = 18)
 feature_29 <- rnorm(n, mean = 6, sd = 30)
 feature_30 <- rnorm(n, mean = -1, sd = 11)
 
-lin_comb <- 1 + 1.2*feature_1 #+ 1.9*feature_2 + 0.5 * feature_3 + feature_4
+lin_comb <- 2.4- 7.9*feature_1 #+ 1.9*feature_2 + 0.5 * feature_3 + feature_4
 prob = 1/(1+exp(-lin_comb))
 target_var <-rbinom(n, 1, prob = prob)
 sum(target_var)
@@ -59,8 +59,8 @@ formula <- target_var ~ .
 glm(formula = formula, data = data_frame, family = "binomial") %>% summary()
 
 data_frame = data_frame %>% as.data.frame()
-name_df = "simulated" # for results 
-data = "simulated" # for results 
+name_df = "simulated_easier" # for results 
+data = "simulated_easier" # for results 
 
 # formula for glm
 formula = target_var~ 1 + feature_1 + feature_2 + feature_3 + feature_4 + feature_5 + feature_6 +
@@ -82,7 +82,7 @@ levels(data_frame[, which(names(data_frame) %in% target)]) <- c(0,1)
 ##########################
 # source experiments files
 ##########################
-path_to_experiments = paste(getwd(),"/benchmarks/experiments/", sep = "")
+path_to_experiments = paste(getwd(),"/benchmarks/experiments", sep = "")
 # sequential sourcing
 # miceadds::source.all(path_to_experiments) 
 

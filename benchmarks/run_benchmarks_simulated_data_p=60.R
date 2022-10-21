@@ -2,13 +2,11 @@
 ## global setup
 ###############
 library(dplyr)
-#N = 10
-#share_unlabeled = 0.8
+share_unlabeled = 0.8
 set.seed(2138720)
 
 # simulate data
-#n = 70
-p = 60 # included in formula for glm
+p = 60 
   
 feature_1 <- rnorm(n, mean = 0.2)
 feature_2 <- rnorm(n, mean = -2)
@@ -72,7 +70,8 @@ feature_59 <- rnorm(n, mean = 6, sd = 30)
 feature_60 <- rnorm(n, mean = -6, sd = 11)
 
 
-lin_comb <- 1 + 1.2*feature_1 #+ 1.9*feature_2 + 0.5 * feature_3 + feature_4
+lin_comb <- 2.4- 7.9*feature_1 
+
 prob = 1/(1+exp(-lin_comb))
 target_var <-rbinom(n, 1, prob = prob)
 sum(target_var)
@@ -102,10 +101,16 @@ formula <- target_var ~ .
 glm(formula = formula, data = data_frame, family = "binomial") %>% summary()
 
 data_frame = data_frame %>% as.data.frame()
-name_df = "simulated" # for results 
-data = "simulated" # for results 
+name_df = "simulated_easier" # for results 
+data = "simulated_easier" # for results 
 
-# formula for glm
+#train test splict
+n_test = nrow(data_frame)*0.5
+n_test = round(n_test)
+
+
+
+# formula for logistic regression
 formula = target_var~ 1 + feature_1 + feature_2 + feature_3 + feature_4 + feature_5 + feature_6 +
   feature_7 + feature_8 + feature_9 + feature_10 + feature_11 + feature_12 + feature_13 +
   feature_14 + feature_15 + feature_16 + feature_17 + feature_18 + feature_19 + feature_20 +
@@ -145,7 +150,7 @@ files_to_source = list.files(path_to_experiments, pattern=".R",
 num_cores <- parallel::detectCores() - 1
 comp_clusters <- parallel::makeCluster(num_cores) # parallelize experiments
 doParallel::registerDoParallel(comp_clusters)
-object_vec = c("N", "share_unlabeled", "data_frame", "name_df", "formula", "target", "p")
+object_vec = c("N", "share_unlabeled", "data_frame", "name_df", "formula", "target", "p", "n_test")
 env <- environment()
 parallel::clusterExport(cl=comp_clusters, varlist = object_vec, envir = env)
 parallel::parSapply(comp_clusters, files_to_source, source)

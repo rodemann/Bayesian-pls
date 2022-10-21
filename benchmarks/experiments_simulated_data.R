@@ -11,7 +11,7 @@ for (share_unlabeled in share_setups) {
     share_unlabeled %>% print
     n %>% print()
     try(
-      source(paste(getwd(),"/benchmarks/run_benchmarks_simulated_data_easier_p=60.R", sep=""))
+      source(paste(getwd(),"/benchmarks/run_benchmarks_simulated_data_p=60.R", sep=""))
     )
     try(
       source(paste(getwd(),"/analyze/analyze.R", sep=""))
