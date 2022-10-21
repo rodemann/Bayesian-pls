@@ -63,6 +63,12 @@ Eventually, download [benchmarks/experiments_simulated_data.R](benchmarks/experi
 
 Both [results](results) and [plots](plots) will be stored automatically. In addition, you can access them as object after completion of the experiments.
 
+
+### Further experiments
+
+Additional experimental setups can now easily be created by modifying [benchmarks/experiments_simulated_data.R](benchmarks/experiments_simulated_data.R)
+
+
 ### Data
 
 Find data and files to read in data in folder [data](data). 
