@@ -8,27 +8,27 @@ This anonymous repository contains code for Selecting Pseudo-Labels the Bayesian
 
 * [R](R) contains implementation of BPLS with PPP and alternative PLS methods to benchmark against
 * [benchmarking](benchmarking) provides files for experiments (section 4), in order to reproduce results, see setup below
-* files in [data](data) allow contain real-world data used in experiments
+* [data](data) contains real-world data used in experiments
 * experimental results and visualization thereof will be saved in [plots](plots) and [results](results) 
 
 
 ### Tested with
 
+- R 4.2.0
 - R 4.1.6
 - R 4.0.3
 
 on
 - Linux Ubuntu 20.04
 - Linux Debian 10
-- Windows 10 Build 20H2 
-- MacOS (only visualizations)
+- Windows 11 Pro Build 22H2 
 
 
 ### Setup
 
-First and foremost, please clone this repo (and install required packages as indicated by your IDE)
+First and foremost, please install all dependencies by sourcing [this file](_setup_session.R) 
 
-In order to reproduce **figure 2** showing the papers' key results (and visualizations of further results not included but only mentioned in the paper on page 10) 
+In order to reproduce the papers' key results (and visualizations thereof) 
 
 * source [this file](benchmarking/viz-probo-all-comparisons.R)  
 
