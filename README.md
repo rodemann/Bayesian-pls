@@ -34,7 +34,7 @@ on
 
 First and foremost, please install all dependencies by sourcing [this file](_setup_session.R).
 
-Then download the implementations of BPLS with PPP and concurring PLS methods:
+Then download the implementations of BPLS with PPP and concurring PLS methods and save in a folder named "R":
 
 * [Supervised Baseline](R/standard_supervised.R)
 * [Probability Score](R/standard_self_training_conf.R)
@@ -45,14 +45,18 @@ Then download the implementations of BPLS with PPP and concurring PLS methods:
 
 
 
-In order to reproduce the papers' key results (and visualizations thereof) download these scripts:
+In order to reproduce the papers' key results (and visualizations thereof) further download these scripts and save in respective folder:
 
-* [benchmarking/run_benchmarks_simulated_data_p=60.R](benchmarking/run_benchmarks_simulated_data_p=60.R)
+* [global setup of experiments](benchmarking/run_benchmarks_simulated_data_p=60.R)
 * [analyze/analyze.R](analyze/analyze.R)
 * [benchmarking/experiments/benchmark-dml-pred.R](benchmarking/experiments/benchmark-dml-pred.R)
+* [benchmarking/experiments/benchmark-dml-pred-ext.R](benchmarking/experiments/benchmark-dml-pred-ext.R)
+* [benchmarking/experiments/benchmark-standard-supervised.R](benchmarking/experiments/benchmark-standard-supervised.R)
+* [benchmarking/experiments/benchmark-standard-self-training.R](benchmarking/experiments/benchmark-standard-self-training.R)
+* [benchmarking/experiments/benchmark-standard-self-training_conf.R](benchmarking/experiments/benchmark-standard-self-training_conf.R)
 
 
-* source [benchmarking/experiments_simulated_data.R](benchmarking/experiments_simulated_data.R) (estimated runtime: 30 CPU hours)
+Eventually, download and source [benchmarking/experiments_simulated_data.R](benchmarking/experiments_simulated_data.R) (estimated runtime: 30 CPU hours)
 
 Both [results](results) and [plots](plots) will be stored automatically. In addition, you can access them as object after completion of the experiments.
 
