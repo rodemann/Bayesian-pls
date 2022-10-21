@@ -33,7 +33,24 @@ on
 ### Setup
 
 First and foremost, please install all dependencies by sourcing [this file](_setup_session.R).
-In order to reproduce the papers' key results (and visualizations thereof) 
+
+Then download the implementations of BPLS with PPP and concurring PLS methods:
+
+* [Supervised Baseline](R/standard_supervised.R)
+* [Probability Score](R/standard_self_training_conf.R)
+* [Predictive Variance](R/standard_self_training.R)
+* [PPP (Bayes-optimal)](R/diff_marg_likelihood_pred_ext.R)
+* [Likelihood (max-max)](R/diff_marg_likelihood_pred.R)
+* [Utilities for PPP](R/utils_diff_marg_likelihood.R)
+
+
+
+In order to reproduce the papers' key results (and visualizations thereof) download these scripts:
+
+* [benchmarking/run_benchmarks_simulated_data_p=60.R](benchmarking/run_benchmarks_simulated_data_p=60.R)
+* [analyze/analyze.R](analyze/analyze.R)
+* [benchmarking/experiments/benchmark-dml-pred.R](benchmarking/experiments/benchmark-dml-pred.R)
+
 
 * source [benchmarking/experiments_simulated_data.R](benchmarking/experiments_simulated_data.R) (estimated runtime: 30 CPU hours)
 
