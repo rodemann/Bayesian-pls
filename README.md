@@ -35,7 +35,7 @@ on
 First and foremost, please install all dependencies by sourcing [this file](_setup_session.R).
 In order to reproduce the papers' key results (and visualizations thereof) 
 
-* source [benchmarking/experiments_simulated_data.R](benchmarking/experiments_simulated_data.R)  
+* source [benchmarking/experiments_simulated_data.R](benchmarking/experiments_simulated_data.R) (estimated runtime: 30 CPU hours)
 
 Both [results](results) and [plots](plots) will be stored automatically. In addition, you can access them as object after completion of the experiments.
 
