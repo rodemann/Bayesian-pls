@@ -53,7 +53,7 @@ In order to reproduce the papers' key results (and visualizations thereof) furth
 * [experiments with PPP (bayes-opt)](benchmarks/experiments/benchmark-dml-pred-ext.R)
 * [experiments with supervised baseline](benchmarks/experiments/_benchmark-standard-supervised.R)
 * [experiments with predictive variance](benchmarks/experiments/_benchmark-standard-self-training.R)
-* [experiments with probability score](benchmarking/experiments/_benchmark-standard-self-training_conf.R)
+* [experiments with probability score](benchmarks/experiments/_benchmark-standard-self-training_conf.R)
 
 
 Eventually, download and source [benchmarking/experiments_simulated_data.R](benchmarking/experiments_simulated_data.R) (estimated runtime: 30 CPU hours)
