@@ -48,7 +48,7 @@ Then download the implementations of BPLS with PPP and concurring PLS methods an
 In order to reproduce the papers' key results (and visualizations thereof) further download these scripts and save in respective folder:
 
 * [global setup of experiments](benchmarks/run_benchmarks_simulated_data_p=60.R)
-* [analyze/analyze.R](analyze/analyze.R)
+* [analysis and visualization](analyze/analyze.R)
 * [experiments with likelihood (max-max)](benchmarks/experiments/benchmark-dml-pred.R)
 * [experiments with PPP (bayes-opt)](benchmarks/experiments/benchmark-dml-pred-ext.R)
 * [experiments with supervised baseline](benchmarks/experiments/_benchmark-standard-supervised.R)
