@@ -27,26 +27,4 @@ get_log_marg_l <- function(logistic_model) {
     })
 }
 
-library(BAS)
-source("R/bas.glm.one.model.R")
-
-get_log_marg_l_sampl <- function(logistic_model){
-  n_parameters <- length(logistic_model$coefficients)
-  n_obs <- logistic_model$data %>% nrow
-  formula <- logistic_model$formula
-  family <- logistic_model$family #redundant
-  data <- logistic_model$data
-  fit <- bas.glm(formula = formula,
-                data = data,
-                family = family, 
-                laplace = FALSE, 
-                betaprior = Jeffreys(),
-                modelprior = uniform(),
-                method = "MCMC",
-                MCMC.iterations = 500,
-                include.always = formula
-  )
-  fit$logmarg
-}
-  
 
