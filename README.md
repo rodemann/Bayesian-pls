@@ -59,7 +59,7 @@ In order to reproduce the papers' key results (and visualizations thereof) furth
     * [experiments with probability score](benchmarks/experiments/_benchmark-standard-self-training_conf.R)
 
 
-Eventually, download [benchmarks/experiments_simulated_data.R](benchmarking/experiments_simulated_data.R) and run from benchmarks/ (estimated runtime: 30 CPU hours)
+Eventually, download [benchmarks/experiments_simulated_data.R](benchmarks/experiments_simulated_data.R) and run from benchmarks/ (estimated runtime: 30 CPU hours)
 
 Both [results](results) and [plots](plots) will be stored automatically. In addition, you can access them as object after completion of the experiments.
 
