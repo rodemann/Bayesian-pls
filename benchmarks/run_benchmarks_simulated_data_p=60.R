@@ -138,6 +138,8 @@ levels(data_frame[, which(names(data_frame) %in% target)]) <- c(0,1)
 # source experiments files
 ##########################
 path_to_experiments = paste(getwd(),"/benchmarks/experiments", sep = "")
+
+
 # sequential sourcing
 # miceadds::source.all(path_to_experiments) 
 
@@ -145,7 +147,6 @@ path_to_experiments = paste(getwd(),"/benchmarks/experiments", sep = "")
 # parallel sourcing
 files_to_source = list.files(path_to_experiments, pattern=".R",
                              full.names = TRUE)
-#files_to_source = files_to_source[-c(4)]
 
 num_cores <- parallel::detectCores() - 1
 comp_clusters <- parallel::makeCluster(num_cores) # parallelize experiments
