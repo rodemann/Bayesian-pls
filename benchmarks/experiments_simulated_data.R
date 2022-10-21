@@ -2,7 +2,7 @@ library(dplyr)
 
 set.seed(2037420)
 
-N = 1
+N = 100
 share_setups = c(0.8)
 n_setups = c(60, 100, 400, 1000)
 
