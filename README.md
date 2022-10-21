@@ -8,9 +8,8 @@ This anonymous repository contains code for Selecting Pseudo-Labels the Bayesian
 
 * [R](R) contains implementation of BPLS with PPP and alternative PLS methods to benchmark against
 * [benchmarking](benchmarking) provides files for experiments (section 4), in order to reproduce results, see setup below
-* files in [data](data) allow recreating visualizations of data and functions used in the benchmark experiments, see below
-* files in [univariate-benchmark-functions](univariate-benchmark-functions) allow visualization of synthetic test functions mentioned in section 4
-
+* files in [data](data) allow contain real-world data used in experiments
+* experimental results and visualization thereof will be saved in [plots](plots) and [results](results) 
 
 
 ### Tested with
