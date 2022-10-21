@@ -4,7 +4,7 @@ set.seed(2037420)
 
 N = 1
 share_setups = c(0.8)
-n_setups = c(800,1000,1200,1400)
+n_setups = c(60,100,400,1000)
 
 for (share_unlabeled in share_setups) {
   for (n in n_setups){
