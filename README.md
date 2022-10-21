@@ -26,11 +26,10 @@ on
 
 ### Setup
 
-First and foremost, please install all dependencies by sourcing [this file](_setup_session.R) 
-
+First and foremost, please install all dependencies by sourcing [this file](_setup_session.R).
 In order to reproduce the papers' key results (and visualizations thereof) 
 
-* source [this file](benchmarking/viz-probo-all-comparisons.R)  
+* source [benchmarking/experiments_simulated_data.R](benchmarking/experiments_simulated_data.R)  
 
 Please find optional (currently commented out) visualizations in lines 118-159 of this very file. In order to rerun all simulations described in section 4 (PROBO on graphene data), please 
 
@@ -41,7 +40,7 @@ Please find optional (currently commented out) visualizations in lines 118-159 o
 
 ### Data
 
-Find files to read in data and create target functions in folder [data](data). 
-E.g. source [data/make-kapton-rf.R](data/make-kapton-rf.R) to read in graphene data (source [is here](https://www.sciencedirect.com/science/article/abs/pii/S0008622320305285)) and reproduce **figure 1** of the paper
+Find data and files to read in data in folder [data](data). 
+
 
 
