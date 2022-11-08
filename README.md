@@ -14,8 +14,6 @@ This anonymous repository contains code for Selecting Pseudo-Labels the Bayesian
 * experimental results and visualization thereof will be saved in [plots](plots) and [results](results) 
 
 
-
-
 ### Tested with
 
 - R 4.2.0
@@ -26,8 +24,6 @@ on
 - Linux Ubuntu 20.04
 - Linux Debian 10
 - Windows 11 Pro Build 22H2 
-
-
 
 
 ### Setup
@@ -42,7 +38,6 @@ Then download the implementations of BPLS with PPP and concurring PLS methods an
 * [PPP (Bayes-optimal)](R/diff_marg_likelihood_pred_ext.R)
 * [Likelihood (max-max)](R/diff_marg_likelihood_pred.R)
 * [Utilities for PPP](R/utils_diff_marg_likelihood.R)
-
 
 
 In order to reproduce the papers' key results (and visualizations thereof) further download these scripts and save in respective folder:
