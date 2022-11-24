@@ -25,7 +25,41 @@ on
 - Linux Debian 10
 - Windows 11 Pro Build 22H2 
 
+### Bayesian Neural Net 
 
+* integrated by emilio, jann into julian's experimental framework
+* call `tf(prob)`, `keras` via `reticulate` to stay consistent with julian's code and plug bnn in as module
+
+Setup: 
+
+* tensorflow==2.10.0
+* tensorflow_probability==0.16
+* keras==2.10.0 
+* R 4.2.1 
+* python 3.10
+
+
+Howto use:
+
+* get on remote via `ssh ubuntu@138.246.236.24` then cd into `Bayesian-pls`
+* `conda activate bnn_env` for python usage, check the `test_tf.py` for dummy bayesian mlp 
+* dummy script is `test_tf.R` with commented installation of tfproba 
+    * simply run from local `R` distribution
+    * (tldr: installation from within r package `tensorflow` works)
+    * still some fuckup with cudnn => runs only on cpu but should do for small data and models
+    * test script contains dummy code (tested by jann) for vae training via tfproba from https://rstudio.github.io/tfprobability/
+
+Howto install
+
+* run `bash install_env.sh` to install R on ubuntu machine (installed already)
+* ... jann will describe in detail at some point for julian
+
+Linklist:
+
+* [intro tfproba in R](https://blogs.rstudio.com/ai/posts/2019-01-08-getting-started-with-tf-probability/)
+* [rstudio intro tf proba keras](https://rstudio.github.io/tfprobability/)
+* [intro bayes nns via tfproba](https://towardsdatascience.com/introduction-to-tensorflow-probability-6d5871586c0e)
+* [Common virtual environment via 'renv'](https://alexweston013.medium.com/how-to-set-up-an-r-python-virtual-environment-using-renv-483f67d76206) (not necessary)
 ### Setup
 
 First and foremost, please install all dependencies by sourcing [this file](_setup_session.R).
@@ -36,6 +70,7 @@ Then download the implementations of BPLS with PPP and concurring PLS methods an
 * [Probability Score](R/standard_self_training_conf.R)
 * [Predictive Variance](R/standard_self_training.R)
 * [PPP (Bayes-optimal)](R/diff_marg_likelihood_pred_ext.R)
+* [PPP (Bayes-optimal) Bayesian Neural Net](R/diff_marg_likelihood_pred_ext_bnn.R)
 * [Likelihood (max-max)](R/diff_marg_likelihood_pred.R)
 * [Utilities for PPP](R/utils_diff_marg_likelihood.R)
 
