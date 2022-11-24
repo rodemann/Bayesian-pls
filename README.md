@@ -1,7 +1,7 @@
 
 # *Bayesian(,) pl(ea)s(e)!*
 
-## Bayesian Pseudo-Label Selection (Bayesian-pls) 
+## Bayesian Pseudo-Label Selection (Bayesian-PLS) 
 
 
 
