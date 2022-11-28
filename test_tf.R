@@ -17,6 +17,23 @@ n$sample(6L)
 bn = tfd$Binomial(total_count = 7, probs = 0.3)
 bn$sample(8L)
 
+# exit Q
+test = function(a){
+  print(a)
+  b = "iris"
+  browser()
+  for (i in seq_len(a)){
+    print(i)
+  }
+  c = "dani"
+}
+
+test(2)
+
+for (a in c(0, 1, 2)){
+  test(a=a)
+}
+
 
 #### Keras tf proba 
 

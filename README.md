@@ -60,6 +60,16 @@ Linklist:
 * [rstudio intro tf proba keras](https://rstudio.github.io/tfprobability/)
 * [intro bayes nns via tfproba](https://towardsdatascience.com/introduction-to-tensorflow-probability-6d5871586c0e)
 * [Common virtual environment via 'renv'](https://alexweston013.medium.com/how-to-set-up-an-r-python-virtual-environment-using-renv-483f67d76206) (not necessary)
+* [TF Probability VI Intro Rstudio](https://blogs.rstudio.com/ai/posts/2019-06-05-uncertainty-estimates-tfprobability/)
+* [Slides on it](https://rstudio-pubs-static.s3.amazonaws.com/547114_25698a3b3e5440158fa78cd8e083bc89.html#40)
+
+
+Prototype: 
+
+* run `benchmarks/entry_bnn.R` from R terminal until line 160
+* magic happens in `R/diff_marg_likelihood_pred_ext.R`, debug via `browser()`
+* jump happens in line 190 `diff_marg_likelihood_pred_ext`
+
 ### Setup
 
 First and foremost, please install all dependencies by sourcing [this file](_setup_session.R).
