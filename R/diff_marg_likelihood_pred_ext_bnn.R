@@ -3,6 +3,15 @@ library(checkmate,asserthat)
 source("R/utils_diff_marg_likelihood.R")
 
 
+# install keras and tfproba from within, make sure version >= 2.10
+# this approach works opposed to reticulate + pip/ conda install
+# install_tensorflow(
+#   extra_packages = c("keras", "tensorflow-hub", "tensorflow-probability"),
+#   version = "2.10"
+# )
+
+
+# import tf, tfproba, keras
 library(tensorflow)
 library(tfprobability)
 library(keras)
@@ -10,10 +19,7 @@ library(keras)
 ###### 
 # jann BNN helpers
 ###### 
-posterior_mean_field <-
-  function(kernel_size,
-          bias_size = 0,
-          dtype = NULL) {
+posterior_mean_field <- function(kernel_size, bias_size = 0, dtype = NULL) {
     n <- kernel_size + bias_size
     c <- log(expm1(1))
     keras_model_sequential(list(
@@ -29,10 +35,7 @@ posterior_mean_field <-
     ))
   }
 
-prior_trainable <-
-  function(kernel_size,
-          bias_size = 0,
-          dtype = NULL) {
+prior_trainable <- function(kernel_size, bias_size = 0, dtype = NULL) {
     n <- kernel_size + bias_size
     keras_model_sequential() %>%
       layer_variable(n, dtype = dtype, trainable = TRUE) %>%
@@ -42,8 +45,6 @@ prior_trainable <-
       })
   }
 
-# fix inputs, can deduct from label vector
-num_classes <- 2
 
 diff_marg_likelihood_pred_ext <- function(labeled_data,
                                       unlabeled_data,
@@ -66,10 +67,14 @@ diff_marg_likelihood_pred_ext <- function(labeled_data,
     # labeled data: 1 = label, 2-61 = features, 62 = "nr"
     # https://blogs.rstudio.com/ai/posts/2019-06-05-uncertainty-estimates-tfprobability/
 
+    browser()
     # Data wrangling for use in DL models
-    x_l = as.matrix(labeled_data[, 2:(length(labeled_data)-1)])
-    y_l = as.matrix(as.double(labeled_data[, 1])) - 1
+    x_l <- as.matrix(labeled_data[, 2:(length(labeled_data)-1)])
+    y_l <- as.matrix(as.double(labeled_data[, 1])) - 1
+    x_u <- as.matrix(unlabeled_data[, 2:(length(unlabeled_data)-1)])
 
+    num_classes <- length(unique(y_l))
+    
     bnn <- keras::keras_model_sequential() %>% tfprobability::layer_dense_variational(
         units = 128,
         batch_input_shape=list(NULL, ncol(x_l)), # input shape for first layer
@@ -77,7 +82,7 @@ diff_marg_likelihood_pred_ext <- function(labeled_data,
         make_prior_fn = prior_trainable,
         activation = NULL
       ) %>% tfprobability::layer_dense_variational(
-        units = num_classes - 1,
+        units = num_classes - 1, # binary classification case
         make_posterior_fn = posterior_mean_field,
         make_prior_fn = prior_trainable,
         activation = NULL
@@ -90,13 +95,13 @@ diff_marg_likelihood_pred_ext <- function(labeled_data,
       
     negloglik <- function(y, model) - (model %>% tfd_log_prob(y))
 
-    browser()
     # build model
     bnn %>% keras::compile(optimizer = keras::optimizer_adam(learning_rate = 0.01), loss = negloglik)
     # train model
     bnn %>% keras::fit(x_l, y_l, epochs = 10)
     
-    yhat = bnn(tf$constant(x_l[1:5, ]))
+    # get predictions for single test samples
+    yhat = bnn(tf$constant(x_u[1:5, ]))
 
     # get mean and stddev predictions for these 5 dummy training samples
     # not really meaningful?!?
@@ -105,7 +110,7 @@ diff_marg_likelihood_pred_ext <- function(labeled_data,
 
     # make inference, dummy: eval on labeled training 
     # from the tutorial, they sample predictive distributions from the model hence the map()
-    predicted_target_dist <- purrr::map(1:10, function(x) bnn(tf$constant(x_l)))
+    predicted_target_dist <- purrr::map(1:10, function(x) bnn(tf$constant(x_u)))
     predicted_target_means <- purrr::map(predicted_target_dist, purrr::compose(as.matrix, tfd_mean)) %>% abind::abind()
     predicted_target_stddev <- purrr::map(predicted_target_dist, purrr::compose(as.matrix, tfd_stddev)) %>% abind::abind()
 
@@ -124,7 +129,6 @@ diff_marg_likelihood_pred_ext <- function(labeled_data,
     # assign predicted (pseudo) labels to unlabeled data
     unlabeled_data[c(target)] <- ifelse(predicted_target > 0.5, 1,0)  
     
-    
     # create datasets that contain labeled data and one predicted instance each
     if(i >= 2){
       which_flip <- which_flip[-(winner)]
@@ -135,22 +139,8 @@ diff_marg_likelihood_pred_ext <- function(labeled_data,
       new_data 
     })
     
-    
     # now approximate marginal likelihood for each of the so-created data sets
-    
-    ## OLD:
-    # marg_l_pseudo = list()
-    # models_pseudo = list()
-    # for(flip_count in seq_along(which_flip)){
-    #   logistic_model <- glm(formula = formula, 
-    #                         data = data_sets_pred[[flip_count]], 
-    #                         family = "binomial")
-    #   n <- data_sets_pred[[flip_count]] %>% nrow()
-    #   #logistic_model <- step(logistic_model, k = log(n), trace = 0, direction = "backward")
-    #   marg_l_pseudo[[flip_count]] <- logistic_model %>% get_log_marg_l()
-    #   models_pseudo[[flip_count]] <- logistic_model
-    # }
-    
+
     models_pseudo <- lapply(data_sets_pred, function(data){
       logistic_model <- glm(formula = formula,
                             data = data,
@@ -158,17 +148,10 @@ diff_marg_likelihood_pred_ext <- function(labeled_data,
       logistic_model
     })
     
-    
-    marg_l_pseudo <- lapply(models_pseudo, get_log_marg_l)
-    
-    
-    
+    marg_l_pseudo <- lapply(models_pseudo, get_log_marg_l)  
+  
     winner <- which.max(unlist(marg_l_pseudo))
-    
-    
-    browser()
-    
-    
+        
     # predict on it again and add to labeled data
     predicted_target <- predict(logistic_model, newdata= unlabeled_data[winner,], type = "response")
     new_labeled_obs <- unlabeled_data[winner,]
@@ -178,7 +161,6 @@ diff_marg_likelihood_pred_ext <- function(labeled_data,
     scores = predict(logistic_model, newdata = test_data, type = "response") 
     prediction_test <- ifelse(scores > 0.5, 1, 0)
     test_acc <- sum(prediction_test == test_data[c(target)])/nrow(test_data)
-    
     
     # update labeled data
     labeled_data<- rbind(labeled_data, new_labeled_obs)
