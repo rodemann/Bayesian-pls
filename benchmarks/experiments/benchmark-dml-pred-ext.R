@@ -1,5 +1,6 @@
 library(dplyr)
-source("R/diff_marg_likelihood_pred_ext.R")
+source("R/global_setup.R")
+source("R/diff_marg_likelihood_pred_ext_bnn.R")
 
 set.seed(3405934)
 method = "diff_marg_likelihood_pred_ext"
@@ -7,10 +8,14 @@ method = "diff_marg_likelihood_pred_ext"
 
 trans_res = vector()
 ind_res = vector()
+# jann
+#n_test = 50
+#share_unlabeled = 0.2
+#N = 300
 
 # share of unlabeled obs
 n_imp = ((nrow(data_frame) - n_test) * share_unlabeled) %>% round()
-
+print(n_imp)
 ind_res_on_the_fly = matrix(nrow = n_imp, ncol = N)
 
 
@@ -57,7 +62,10 @@ for (iter in 1:N) {
   trans_res[iter] = res
   
   # final inductive learning results
-  scores = predict(model, newdata = test_data, type = "response") 
+  #scores = predict(model, newdata = test_data, type = "response") 
+  x_l <- as.matrix(test_data[, 2:(length(test_data))])
+  y_l <- as.matrix(as.double(test_data[, 1])) - 1
+  scores <- as.array(model(x_l) %>% tfd_mean())
   prediction_test <- ifelse(scores > 0.5, 1, 0)
   ind_res_iter <- sum(prediction_test == test_data[c(target)])
   

@@ -5,8 +5,8 @@ library(dplyr)
 share_unlabeled = 0.8
 set.seed(2138720)
 
-n = 400
-N = 100
+n = 120
+N = 5
 
 # simulate data
 p = 60 
@@ -72,33 +72,35 @@ feature_58 <- rnorm(n, mean = 4, sd = 18)
 feature_59 <- rnorm(n, mean = 6, sd = 30)
 feature_60 <- rnorm(n, mean = -6, sd = 11)
 
-
-lin_comb <- 2.4- 7.9*feature_1 
+lin_comb <- 2.4- 7.9*feature_1
+# only for pretraining
+#lin_comb <- lin_comb + rnorm(n, sd=5)
 
 prob = 1/(1+exp(-lin_comb))
 target_var <-rbinom(n, 1, prob = prob)
 sum(target_var)
-data_frame <- data_frame(target_var = target_var, feature_1 = feature_1, feature_2 = feature_2,
-                         feature_3 = feature_3, feature_4 = feature_4, feature_5 = feature_5,
-                         feature_6 = feature_6, feature_7 = feature_7, feature_8 = feature_8,
-                         feature_9 = feature_9, feature_10 = feature_10, feature_11 = feature_11,
-                         feature_12 = feature_12, feature_13 = feature_13, feature_14 = feature_14,
-                         feature_15 = feature_15, feature_16 = feature_16, feature_17 = feature_17,
-                         feature_18 = feature_18, feature_19 = feature_19, feature_20 = feature_20,
-                         feature_21 = feature_21, feature_22 = feature_22, feature_23 = feature_23,
-                         feature_24 = feature_24, feature_25 = feature_25, feature_26 = feature_26,
-                         feature_27 = feature_27, feature_28 = feature_28, feature_29 = feature_29,
-                         feature_30 = feature_30, feature_31 = feature_31,
-                         feature_32 = feature_32, feature_33 = feature_33, feature_34 = feature_34,
-                         feature_35 = feature_35, feature_36 = feature_36, feature_37 = feature_37,
-                         feature_38 = feature_38, feature_39 = feature_39, feature_40 = feature_40,
-                         feature_41 = feature_41, feature_42 = feature_42, feature_43 = feature_43,
-                         feature_44 = feature_44, feature_45 = feature_45, feature_46 = feature_46,
-                         feature_47 = feature_47, feature_48 = feature_48, feature_49 = feature_49,
-                         feature_50 = feature_50, feature_51 = feature_51,
-                         feature_52 = feature_52, feature_53 = feature_53, feature_54 = feature_54,
-                         feature_55 = feature_55, feature_56 = feature_56, feature_57 = feature_57,
-                         feature_58 = feature_58, feature_59 = feature_59, feature_60 = feature_60)
+
+data_frame <- data_frame(target_var = target_var, feature_1 = feature_1, feature_2 = feature_2, feature_3 = feature_3, feature_4 = feature_4)
+#, feature_5 = feature_5)
+#                          feature_6 = feature_6, feature_7 = feature_7, feature_8 = feature_8,
+#                          feature_9 = feature_9, feature_10 = feature_10, feature_11 = feature_11,
+#                          feature_12 = feature_12, feature_13 = feature_13, feature_14 = feature_14,
+#                          feature_15 = feature_15, feature_16 = feature_16, feature_17 = feature_17,
+#                          feature_18 = feature_18, feature_19 = feature_19, feature_20 = feature_20,
+#                          feature_21 = feature_21, feature_22 = feature_22, feature_23 = feature_23,
+#                          feature_24 = feature_24, feature_25 = feature_25, feature_26 = feature_26,
+#                          feature_27 = feature_27, feature_28 = feature_28, feature_29 = feature_29,
+#                          feature_30 = feature_30, feature_31 = feature_31,
+#                          feature_32 = feature_32, feature_33 = feature_33, feature_34 = feature_34,
+#                          feature_35 = feature_35, feature_36 = feature_36, feature_37 = feature_37,
+#                          feature_38 = feature_38, feature_39 = feature_39, feature_40 = feature_40,
+#                          feature_41 = feature_41, feature_42 = feature_42, feature_43 = feature_43,
+#                          feature_44 = feature_44, feature_45 = feature_45, feature_46 = feature_46,
+#                          feature_47 = feature_47, feature_48 = feature_48, feature_49 = feature_49,
+#                          feature_50 = feature_50, feature_51 = feature_51,
+#                          feature_52 = feature_52, feature_53 = feature_53, feature_54 = feature_54,
+#                          feature_55 = feature_55, feature_56 = feature_56, feature_57 = feature_57,
+#                          feature_58 = feature_58, feature_59 = feature_59, feature_60 = feature_60)
                          
 formula <- target_var ~ .
 glm(formula = formula, data = data_frame, family = "binomial") %>% summary()
@@ -137,6 +139,7 @@ levels_present <- levels(data_frame[c(target)] %>% unlist())
 levels_present
 levels(data_frame[, which(names(data_frame) %in% target)]) <- c(0,1)
 
+
 ##########################
 # source experiments files
 ##########################
@@ -146,11 +149,39 @@ path_to_experiments = paste(getwd(),"/benchmarks/experiments", sep = "")
 # sequential sourcing
 # miceadds::source.all(path_to_experiments) 
 
-
 # parallel sourcing
-files_to_source = list.files(path_to_experiments, pattern=".R",
+files_to_source = list.files(path_to_experiments, pattern="\\.R$",
                              full.names = TRUE)
-files_to_source = c("/home/ubuntu/Bayesian-pls/benchmarks/experiments/benchmark-dml-pred-ext.R")
+                             num_cores <- parallel::detectCores() - 1
+
+
+
+#source(files_to_source[[1]])
+
+
+num_cores <- parallel::detectCores() - 1
+comp_clusters <- parallel::makeCluster(num_cores) # parallelize experiments
+doParallel::registerDoParallel(comp_clusters)
+object_vec = c("N", "share_unlabeled", "data_frame", "name_df", "formula", "target", "p", "n_test")
+env <- environment()
+parallel::clusterExport(cl=comp_clusters, varlist = object_vec, envir = env)
+parallel::parSapply(comp_clusters, files_to_source, source)
+parallel::stopCluster(comp_clusters)
+
+
+
+
+
+# files_to_source = c("/home/ubuntu/Bayesian-pls/benchmarks/experiments/benchmark-dml-pred-ext.R")
+
+
+
+
+
+
+
+
+
 
 ##################
 # source code dml pred ext 
@@ -159,6 +190,8 @@ files_to_source = c("/home/ubuntu/Bayesian-pls/benchmarks/experiments/benchmark-
 N = 1 # one rep
 library(dplyr)
 source("R/diff_marg_likelihood_pred_ext_bnn.R")
+source("R/standard_self_training.R")
+source("R/standard_self_training_conf.R")
 
 set.seed(3405934)
 method = "diff_marg_likelihood_pred_ext_bnn"
@@ -194,11 +227,23 @@ true_labels = cbind(unlabeled_data$nr, unlabeled_data[c(target)])
 
 ######## ENTRY TO BNN IMPLEMENT VIA BROWSER()
 
-results_list <- diff_marg_likelihood_pred_ext(labeled_data = labeled_data, 
+results_list <- standard_self_training_conf(labeled_data = labeled_data, 
                                                 unlabeled_data = unlabeled_data,
                                                 test_data = test_data,
                                                 target = target,
                                                 glm_formula = formula)
+
+# results_list <- standard_self_training(labeled_data = labeled_data, 
+#                                                 unlabeled_data = unlabeled_data,
+#                                                 test_data = test_data,
+#                                                 target = target,
+#                                                 glm_formula = formula)
+
+# results_list <- diff_marg_likelihood_pred_ext_bnn(labeled_data = labeled_data, 
+#                                                 unlabeled_data = unlabeled_data,
+#                                                 test_data = test_data,
+#                                                 target = target,
+#                                                 glm_formula = formula)
 
 # get transductive and inductive results
 results <- results_list[[1]]
@@ -216,7 +261,9 @@ res = sum(sorted_results[,2] == sorted_true_labels[,2])
 trans_res[iter] = res
 
 # final inductive learning results
-scores = predict(model, newdata = test_data, type = "response") 
+x_l <- as.matrix(test_data[, 2:(length(test_data)-1)])
+y_l <- as.matrix(as.double(test_data[, 1])) - 1
+scores <- as.array(bnn(x_l) %>% tfd_mean())
 prediction_test <- ifelse(scores > 0.5, 1, 0)
 ind_res_iter <- sum(prediction_test == test_data[c(target)])
 
@@ -291,6 +338,5 @@ parallel::clusterExport(cl=comp_clusters, varlist = object_vec, envir = env)
 parallel::parSapply(comp_clusters, files_to_source, source)
 
 parallel::stopCluster(comp_clusters)
-
 
 

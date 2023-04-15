@@ -5,6 +5,10 @@ library(dplyr)
 share_unlabeled = 0.8
 set.seed(2138720)
 
+print("WHOOO")
+n = 400
+N = 100
+
 # simulate data
 p = 60 
   

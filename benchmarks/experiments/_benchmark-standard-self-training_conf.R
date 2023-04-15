@@ -1,4 +1,6 @@
 library(dplyr)
+
+source("R/global_setup.R")
 source("R/standard_self_training_conf.R")
 
 set.seed(3405934)
@@ -51,7 +53,10 @@ for (iter in 1:N) {
   trans_res[iter] = res
   
   # final inductive learning results
-  scores = predict(model, newdata = test_data, type = "response") 
+  #scores = predict(model, newdata = test_data, type = "response") 
+  x_l <- as.matrix(test_data[, 2:(length(test_data))])
+  y_l <- as.matrix(as.double(test_data[, 1])) - 1
+  scores <- as.array(model(x_l) %>% tfd_mean())
   prediction_test <- ifelse(scores > 0.5, 1, 0)
   ind_res_iter <- sum(prediction_test == test_data[c(target)])
   
