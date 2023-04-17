@@ -2,6 +2,9 @@ library(ggplot2)
 library(ggpubr)
 library(dplyr)
 library(tidyverse)
+
+source("R/global_setup.R")
+
 #library(wesanderson)
 # library(RColorBrewer)
 # library(ggsci)
@@ -60,7 +63,8 @@ df <- matrix(nrow = n_methods, ncol = 7)
 # 
 
 
-load(paste(getwd(),"/results/diff_marg_likelihood_pred_", share_unlabeled,"_",data, "_n=", as.character(n), "_p=", as.character(p), sep=""))
+fname <- paste(getwd(),"/results/diff_marg_likelihood_pred_", share_unlabeled,"_",data, "_n=", as.character(n), "_p=", as.character(p), sep="")
+load(fname)
 onthefly_acc_paths[1:n_imp,"iter"] <- 1:n_imp
 onthefly_acc_paths[1:n_imp,"Upper.CB"] <- saved_results$`Inductive on-the-fly CI`[2,]
 onthefly_acc_paths[1:n_imp,"Lower.CB"] <- saved_results$`Inductive on-the-fly CI`[1,]
@@ -188,6 +192,10 @@ description_char = paste("data:", data, " | ", "setup:"," n=", as.character(n),
 # data = "Abalone (n = 400, p = 4)"
 #data = "Simulated (n = 100, p = 60)"
 
+onthefly_acc_paths_all %>%
+  group_by(Method) %>%
+  summarise(acc = mean(Mean.Accuracy), se = sd(Mean.Accuracy) / sqrt(n()))
+
 
 # plot for confidence intervalls on the fly
 plot <- ggplot(data = onthefly_acc_paths_all, aes(x = iter, group = Method)) +
@@ -212,9 +220,10 @@ plot <- plot + theme(panel.background = element_rect(fill = "grey28")) +
 
 plot
 
+saveRDS(onthefly_acc_paths_all, "/tmp/onthefly_acc_paths_all.RDS")
 
 filename = paste("plots/res_plot_data=", data,"_share=",share_unlabeled, "_n=", as.character(n), "_p=", as.character(p),".png", sep = "")
-ggsave(filename=filename, plot = plot,  dpi = 300)
+ggsave(filename=filename, plot = plot,  dpi = 64)
 
 
 

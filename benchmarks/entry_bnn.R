@@ -5,7 +5,7 @@ library(dplyr)
 share_unlabeled = 0.8
 set.seed(2138720)
 
-n = 120
+n = 40000
 N = 5
 
 # simulate data

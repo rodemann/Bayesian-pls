@@ -58,7 +58,7 @@ for (iter in 1:N) {
   # final inductive learning results
   #scores = predict(model, newdata = test_data, type = "response") 
   x_l <- as.matrix(test_data[, 2:(length(test_data))])
-  y_l <- as.matrix(as.double(test_data[, 1])) - 1
+  y_l <- as.matrix(as.double(test_data$target_var)) - 1
   scores <- as.array(model(x_l) %>% tfd_mean())
   prediction_test <- ifelse(scores > 0.5, 1, 0)
   ind_res_iter <- sum(prediction_test == test_data[c(target)])
