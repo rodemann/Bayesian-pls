@@ -77,7 +77,7 @@ standard_supervised <- function(labeled_data,
     #  4. stop, undo, rerun
     #bnn <- get_model(x_l, y_l, save_fname = "bnn_pretrained.h5", validation_split = 0.2, epochs = 1500)
 
-    bnn <- get_model(x_l, y_l, load_fname = "bnn_pretrained.h5", validation_split = NULL, epochs = 25, verbose = 0)
+    bnn <- get_model(x_l, y_l, load_fname = "bnn_pretrained.h5", validation_split = NULL, epochs = 150, verbose = 0)
  
     # predict on unlabeled
     

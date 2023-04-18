@@ -3,12 +3,12 @@
 ###############
 source("R/bnn_utils.R")
 library(dplyr)
-share_unlabeled = 0.5
+share_unlabeled = 0.9
 set.seed(2138720)
 
 # half of this is test
 n = 400
-N = 3
+N = 6
 
 # simulate data
 p = 60 

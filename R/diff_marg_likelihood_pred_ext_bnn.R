@@ -82,7 +82,7 @@ diff_marg_likelihood_pred_ext <- function(labeled_data,
         ifelse(grepl("posterior", w$name), 0, sum(as.array(w)**2 / 2))
       ) %>% unlist())
 
-      #return(loglik - log_determinant / 2 + prior_diff)
+      #return(loglik - log_determinant / 2)
       return(prior_diff)
     })
   
